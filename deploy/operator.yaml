@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-enterprise-operator
@@ -12,12 +12,11 @@ spec:
       labels:
         name: redis-enterprise-operator
     spec:
-      serviceAccount: redis-enterprise-operator
+      serviceAccountName: redis-enterprise-operator
       containers:
         - name: redis-enterprise-operator
-          image: redislabs/operator:5.4.6-1183
-          securityContext:
-            runAsUser: 1001
+          # Replace this with the built image name
+          image: redislabs/operator:100.0.1-1512
           command:
           - redis-enterprise-operator
           imagePullPolicy: Always
@@ -30,3 +29,5 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "redis-enterprise-operator"
